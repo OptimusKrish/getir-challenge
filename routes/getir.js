@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const { Joi, validate } = require('express-validation');
-const fetchRecords = require('../models/fetch');
+const Models = require('../models/fetch');
 
 // Joi schema
 const schema = {
@@ -53,7 +53,7 @@ const schema = {
 router.post('/getir', validate(schema), async function (req, res, next) {
   try {
     // ToDo: Validate date format
-    await fetchRecords(req.body)
+    await Models.fetchRecords(req.body)
     .then((data) => {
       const processedData = {
         code: 0,

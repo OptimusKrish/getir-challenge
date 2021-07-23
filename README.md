@@ -12,7 +12,7 @@ NodeJS version required to run this project `v14.17.3` which is mentioned in the
 - `.env` file needs to created in the root of the project with DB related variables
 - Execute `npm run start` to start the API service
 - Execute `npm run test` for running the unit tests
-- Execute `npm run report` to check the code coverage
+- Execute `npm run report` to check the code coverage on Mac machine
 - Swagger Link to use the API
  1. [On Local](http://localhost:3000/docs)
  2. [On Server](http://18.216.191.220/docs)
@@ -26,3 +26,8 @@ NodeJS version required to run this project `v14.17.3` which is mentioned in the
    "maxCount":200
 }
 ````
+
+### Code coverage - Unit/API testing
+![Browser Report](https://drive.google.com/file/d/1-uQbgJcYTVFIQDdsHq8RrWjAUSkmsIfB/view?usp=sharing)
+
+![Terminal Report](https://drive.google.com/file/d/1ea482iaudAJgK0swOjElyf0G-ZCLIWRs/view?usp=sharing)

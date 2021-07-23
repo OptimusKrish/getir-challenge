@@ -5,7 +5,9 @@
   "main": "bin/www",
   "scripts": {
     "start": "nodemon bin/www",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "nyc _mocha tests --timeout 10000 --recursive --check-coverage --lines 85 && npm run coverage",
+    "coverage": "nyc report --reporter=lcov",
+    "report": "open ./coverage/lcov-report/index.html"
   },
   "repository": {
     "type": "git",
@@ -29,5 +31,11 @@
     "mongodb": "^4.0.1",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-http": "^4.3.0",
+    "mocha": "^9.0.2",
+    "nyc": "^15.1.0"
   }
 }

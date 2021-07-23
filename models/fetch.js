@@ -1,5 +1,5 @@
 // Mongo Client
-var MongoClient = require('mongodb').MongoClient;
+const MongoClient = require('mongodb').MongoClient;
 
 // Mongo connections
 const uri = process.env.DB_HOST;
@@ -60,4 +60,7 @@ const fetchRecords = async ({ startDate, endDate, minCount, maxCount
   }
 };
 
-module.exports = fetchRecords;
+module.exports = {
+  fetchRecords,
+  getCollection
+};
