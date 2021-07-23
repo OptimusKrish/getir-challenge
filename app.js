@@ -11,6 +11,7 @@ const getir = require('./routes/getir');
 const app = express();
 app.use(bodyParser.json());
 
+// To define Swagger API - Docs
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -27,18 +28,19 @@ const swaggerDefinition = {
 };
 
 const swaggerOptions = {
-    swaggerDefinition: swaggerDefinition,
-    apis: ['./routes/*.js'],
+  swaggerDefinition: swaggerDefinition,
+  apis: ['./routes/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/swagger.json', function (req, res) {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(swaggerSpec);
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
 });
 
+// Rest API Routes
 app.use('/', routes);
 app.use('/v1', getir);
 

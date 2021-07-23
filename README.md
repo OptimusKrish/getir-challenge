@@ -28,6 +28,6 @@ NodeJS version required to run this project `v14.17.3` which is mentioned in the
 ````
 
 ### Code coverage - Unit/API testing
-![Browser Report](https://drive.google.com/file/d/1-uQbgJcYTVFIQDdsHq8RrWjAUSkmsIfB/view?usp=sharing)
+![Browser Report](coverage-screenshot/code-coverage-browser.png)
 
-![Terminal Report](https://drive.google.com/file/d/1ea482iaudAJgK0swOjElyf0G-ZCLIWRs/view?usp=sharing)
+![Terminal Report](coverage-screenshot/coverage-report.png)

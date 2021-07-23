@@ -9,7 +9,7 @@ describe('Models', function () {
     done();
   });
 
-  it('fetchRecords', function (done) {
+  it('fetchRecords with valid keys', function (done) {
     const mockPayload = {
       startDate: '2016-12-14',
       endDate: '2016-12-22',
@@ -27,7 +27,7 @@ describe('Models', function () {
     })
   });
 
-  it('fetchRecords with invalid key', function (done) {
+  it('fetchRecords with an invalid key', function (done) {
     const mockPayload = {
       startDate: '2016-12-14',
       endDate: '2016-12-22',
