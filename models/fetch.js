@@ -2,42 +2,62 @@
 var MongoClient = require('mongodb').MongoClient;
 
 // Mongo connections
-const uri = 'mongodb+srv://challengeUser:WUMglwNBaydH8Yvu@challenge-xzwqd.mongodb.net/getir-case-study?retryWrites=true';
+const uri = process.env.DB_HOST;
 const client = new MongoClient(uri);
 
-async function getData(reqObj) {
-  try {
-    // Create DB connection
-    await client.connect();
-    const database = client.db('getir-case-study');
-    const getirRecord = database.collection('records');
-    const convertedStartDate = new Date(reqObj.startDate);
-    const convertedEndDate = new Date(reqObj.endDate);
+const getCollection = async (name) => {
+  // Create DB connection
+  await client.connect();
+  const database = client.db(process.env.DB_NAME);
+  return database.collection(name);
+};
 
-    const query = { createdAt: { $gte: convertedStartDate, $lte: convertedEndDate } };
-    const results = await getirRecord.find(query).toArray();
-    const records = [];
-    results.forEach((result) => {
-      let calculatedCount = result.counts.reduce((a, b) => a + b);
-      if(calculatedCount > reqObj.minCount && calculatedCount < reqObj.maxCount) {
-        records.push({key: result.key, createdAt: result.createdAt, totalCount: calculatedCount});
-      } else {
-        console.log('calculatedCount is more >> ', calculatedCount);
-      }
-    });
-    const processed = {
-      code: 0,
-      msg: "Success",
-      records
-    };
-    return processed;
-  } catch(e) {
-    console.log(`Error while connecting to DB`, e);
-    return { code: -1, error: e , msg: 'DB connection error'};
-  } finally {
-    // To Close the connection after completion
-    await client.close();
+const fetchRecords = async ({ startDate, endDate, minCount, maxCount
+ }) => {
+  try {
+    const collection = await getCollection(process.env.DB_COLLECTION);
+    // Retreive data based on filtering logic
+    const result = await collection
+      .aggregate([
+        {
+          $match: {
+            createdAt: {
+              $gte: new Date(startDate),
+              $lte: new Date(endDate),
+            },
+          },
+        },
+        {
+          $project: {
+            _id: 0,
+            key: 1,
+            createdAt: 1,
+            totalCount: {
+              $reduce: {
+                input: "$counts",
+                initialValue: 0,
+                in: {
+                  $add: ["$$value", "$$this"],
+                },
+              },
+            },
+          },
+        },
+        {
+          $match: {
+            totalCount: {
+              $gte: minCount,
+              $lte: maxCount
+            }
+          }
+        }
+      ])
+      .toArray();
+    return result;
+  } catch (err) {
+    console.log(`Error while connecting to DB`, err);
+    throw err;
   }
 };
 
-module.exports = getData;
+module.exports = fetchRecords;

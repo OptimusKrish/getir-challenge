@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser')
 const swaggerJSDoc = require('swagger-jsdoc');
 const { ValidationError } = require('express-validation');
@@ -19,13 +20,9 @@ const swaggerDefinition = {
   },
   servers: [
     {
-      url: 'http://localhost:3000',
-      description: 'Development server',
-    },
-    {
-      url: 'http://localhost:3000',
-      description: 'Production server',
-    },
+      url: process.env.baseUrl,
+      description: 'API server',
+    }
   ],
 };
 
@@ -35,7 +32,7 @@ const swaggerOptions = {
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
-app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/swagger.json', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
@@ -45,13 +42,14 @@ app.get('/swagger.json', function (req, res) {
 app.use('/', routes);
 app.use('/v1', getir);
 
-// catch 404 and forward to error handler
+// catch 404
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
+// catch 500 and other uncaught errors
 app.use(function(err, req, res, next) {
   if (err instanceof ValidationError) {
     return res.status(err.statusCode).json(err)

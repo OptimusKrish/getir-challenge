@@ -1,7 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const { Joi, validate } = require('express-validation');
-const getData = require('../models/fetch');
+const fetchRecords = require('../models/fetch');
 
 // Joi schema
 const schema = {
@@ -53,28 +53,21 @@ const schema = {
 router.post('/getir', validate(schema), async function (req, res, next) {
   try {
     // ToDo: Validate date format
-    //   const response = {
-    //     "code":0,
-    //     "msg":"Success",
-    //     "records":[
-    //       {
-    //           "key":"TAKwGc6Jr4i8Z487",
-    //           "createdAt":"2017-01-28T01:22:14.398Z",
-    //           "totalCount":2800
-    //       }
-    //     ]
-    // };
-    console.log(111);
-    await getData(req.body)
+    await fetchRecords(req.body)
     .then((data) => {
-      return res.status(200).json(data);
+      const processedData = {
+        code: 0,
+        msg: 'Success',
+        records: data
+      };
+      return res.status(200).json(processedData);
     })
     .catch((e) => {
-      return res.status(500).json({ code: -2, error: e, msg: 'Internal Server Error' });
+      return res.status(500).json({ code: -1, error: e, msg: 'Internal Server Error' });
     });
   } catch (err) {
     next(err);
-    return res.status(500).json({ code: -2, error: e, msg: 'Internal Server Error' });
+    return res.status(500).json({ code: -1, error: e, msg: 'Internal Server Error' });
   }
 });
 
