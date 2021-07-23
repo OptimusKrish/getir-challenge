@@ -15,7 +15,7 @@ const schema = {
 
 /**
  * @swagger
- * /v1/getir:
+ * /v1/getir/post:
  *   post:
  *     tags:
  *       - Getir
@@ -49,8 +49,10 @@ const schema = {
  *         description: Internal Server error
  *       404:
  *         description: Requested object not found
+ *       400:
+ *         description: Validation error - Invalid Payload
  */
-router.post('/getir', validate(schema), async function (req, res, next) {
+router.post('/getir/post', validate(schema), async function (req, res, next) {
   try {
     // ToDo: Validate date format
     await Models.fetchRecords(req.body)

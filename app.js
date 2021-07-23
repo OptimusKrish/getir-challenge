@@ -43,14 +43,12 @@ app.use('/', routes);
 app.use('/v1', getir);
 
 // catch 404
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+app.use(function(req, res) {
+  return res.status(404).json({ status: 404, message: 'Invalid API' });
 });
 
 // catch 500 and other uncaught errors
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   if (err instanceof ValidationError) {
     return res.status(err.statusCode).json(err)
   }
