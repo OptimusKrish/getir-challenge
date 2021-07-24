@@ -55,23 +55,16 @@ const schema = {
  *       400:
  *         description: Validation error - Invalid Payload
  */
-router.post('/getir/post', validate(schema), async function (req, res, next) {
+router.post('/getir/post', validate(schema), async function (req, res) {
   try {
-    // ToDo: Validate date format
-    await Models.fetchRecords(req.body)
-    .then((data) => {
-      const processedData = {
-        code: 0,
-        msg: 'Success',
-        records: data
-      };
-      return res.status(200).json(processedData);
-    })
-    .catch((e) => {
-      return res.status(500).json({ code: -1, error: e, msg: 'Internal Server Error' });
-    });
+    const data = await Models.fetchRecords(req.body);
+    const processedData = {
+      code: 0,
+      msg: 'Success',
+      records: data
+    };
+    return res.status(200).json(processedData);
   } catch (err) {
-    next(err);
     return res.status(500).json({ code: -1, error: err, msg: 'Internal Server Error' });
   }
 });
