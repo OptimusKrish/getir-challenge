@@ -21,10 +21,7 @@ describe('Models', function () {
       expect(data).to.be.an('array');
       expect(data[0]).to.have.property('key').to.be.eq('fhTBZosc');
       done();
-    }).catch((e) => {
-      console.log(e);
-      done();
-    })
+    });
   });
 
   it('fetchRecords with an invalid key', function (done) {

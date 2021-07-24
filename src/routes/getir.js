@@ -31,17 +31,20 @@ const schema = {
  *               startDate:
  *                  type: string
  *                  format: date
- *                  description: Start date for the filtering
+ *                  description: Start date for the filtering against created date
+ *                  example: 2016-01-01
  *               endDate:
  *                  type: string
  *                  format: date
- *                  description: End date for the filtering
+ *                  description: End date for the filtering against created date
  *               minCount:
  *                  type: number
- *                  description: Minimum count for the filtering
+ *                  description: Minimum count for the filtering against count
+ *                  example: 1
  *               maxCount:
  *                  type: number
- *                  description: Minimum count for the filtering
+ *                  description: Minimum count for the filtering against count
+ *                  example: 100
  *     responses:
  *       200:
  *         description: Successfully pulled data from source
@@ -69,7 +72,7 @@ router.post('/getir/post', validate(schema), async function (req, res, next) {
     });
   } catch (err) {
     next(err);
-    return res.status(500).json({ code: -1, error: e, msg: 'Internal Server Error' });
+    return res.status(500).json({ code: -1, error: err, msg: 'Internal Server Error' });
   }
 });
 

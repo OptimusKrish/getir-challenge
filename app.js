@@ -5,8 +5,8 @@ const swaggerJSDoc = require('swagger-jsdoc');
 const { ValidationError } = require('express-validation');
 const swaggerUi = require('swagger-ui-express');
 
-const routes = require('./routes/index');
-const getir = require('./routes/getir');
+const routes = require('./src/routes/index');
+const getir = require('./src/routes/getir');
 
 const app = express();
 app.use(bodyParser.json());
@@ -29,7 +29,7 @@ const swaggerDefinition = {
 
 const swaggerOptions = {
   swaggerDefinition: swaggerDefinition,
-  apis: ['./routes/*.js'],
+  apis: ['./src/routes/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);

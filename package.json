@@ -5,9 +5,11 @@
   "main": "bin/www",
   "scripts": {
     "start": "nodemon bin/www",
-    "test": "nyc _mocha tests --timeout 10000 --recursive --check-coverage --lines 85 && npm run coverage",
+    "test": "nyc _mocha src/tests --timeout 10000 --recursive --check-coverage --lines 85 --exit && npm run coverage",
     "coverage": "nyc report --reporter=lcov",
-    "report": "open ./coverage/lcov-report/index.html"
+    "report": "open ./coverage/lcov-report/index.html",
+    "lint-fix": "eslint ./src --fix",
+    "pre-commit": "npm run lint-fix && npm run test"
   },
   "repository": {
     "type": "git",
@@ -35,7 +37,14 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
+    "eslint": "^7.31.0",
+    "lint-staged": "^11.1.0",
     "mocha": "^9.0.2",
-    "nyc": "^15.1.0"
-  }
+    "nyc": "^15.1.0",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": [
+    "lint-fix",
+    "test"
+  ]
 }
