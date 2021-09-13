@@ -1,4 +1,7 @@
 # getir-challenge
+
+`DEPRECATED` NO ACTIVE DEVELOPMENT
+
 Rest API to retrieve data from Mongo DB
 
 NodeJS version required to run this project `v14.17.3` which is mentioned in the `.nvmrc`
